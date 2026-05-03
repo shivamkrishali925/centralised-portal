@@ -10,17 +10,20 @@
       --primary: #00f0ff;
       --secondary: #ff003c;
     }
+    * {
+      box-sizing: border-box;
+    }
     body, html {
       margin: 0;
       padding: 0;
       width: 100%;
       height: 100%;
       font-family: 'Outfit', sans-serif;
-      overflow: hidden;
+      overflow-x: hidden;
+      overflow-y: hidden;
       background: #050505;
       color: #fff;
     }
-    
     /* Vanta 3D Canvas Container */
     #vanta-bg {
       position: absolute;
@@ -30,7 +33,6 @@
       height: 100%;
       z-index: 0;
     }
-
     /* Main Content Wrapper */
     .container {
       position: relative;
@@ -39,10 +41,11 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 100vh;
+      min-height: 100vh;
+      height: auto;
+      padding: 40px 24px 80px;
       pointer-events: none; /* Let background handle interactions where there are no cards */
     }
-
     /* Floating Title */
     h1 {
       font-size: 3.5rem;
@@ -53,13 +56,11 @@
       font-weight: 800;
       animation: float 4s ease-in-out infinite;
     }
-
     @keyframes float {
       0% { transform: translateY(0px); text-shadow: 0 0 15px rgba(255, 255, 255, 0.3); }
       50% { transform: translateY(-10px); text-shadow: 0 0 25px rgba(255, 255, 255, 0.6); }
       100% { transform: translateY(0px); text-shadow: 0 0 15px rgba(255, 255, 255, 0.3); }
     }
-
     /* Cards Grid */
     .cards-wrapper {
       display: flex;
@@ -68,12 +69,14 @@
       flex-wrap: wrap;
       justify-content: center;
       padding: 20px;
+      width: 100%;
+      max-width: 1100px;
     }
-
     /* Individual 3D Card */
     .card {
       position: relative;
       width: 300px;
+      max-width: 90vw;
       height: 420px;
       background: rgba(20, 20, 20, 0.2);
       border-radius: 24px;
@@ -91,11 +94,9 @@
       transition: border 0.3s ease, transform 0.3s ease;
       transform-style: preserve-3d;
     }
-
     .card:hover {
       border: 1px solid rgba(255, 255, 255, 0.4);
     }
-
     /* Parallax content inside the card */
     .card-content {
       /* This pulls the content out of the card along the Z-axis for the 3D parallax effect */
@@ -107,32 +108,27 @@
       padding: 30px;
       z-index: 2;
     }
-
     .icon {
       font-size: 5rem;
       margin-bottom: 25px;
       filter: drop-shadow(0 0 15px rgba(255,255,255,0.4));
       transition: transform 0.3s ease;
     }
-
     .card:hover .icon {
       transform: scale(1.1) translateZ(20px);
     }
-
     .card h2 {
       font-size: 1.8rem;
       font-weight: 800;
       margin-bottom: 15px;
       letter-spacing: 1px;
     }
-
     .card p {
       font-size: 0.95rem;
       color: rgba(255, 255, 255, 0.75);
       line-height: 1.6;
       font-weight: 300;
     }
-
     /* Abstract glowing blobs inside the card (behind the content) */
     .blob {
       position: absolute;
@@ -142,22 +138,60 @@
       z-index: 0;
       transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
-
     .card:hover .blob {
       opacity: 0.8;
       transform: scale(1.3);
     }
-
     /* Specific blob colors and positions */
     .c-worksheet .blob1 { background: #00f0ff; width: 120px; height: 120px; top: -20px; right: -20px; }
     .c-worksheet .blob2 { background: #ff003c; width: 150px; height: 150px; bottom: -30px; left: -30px; }
-
     .c-timetable .blob1 { background: #00ff87; width: 130px; height: 130px; top: -10px; left: -10px; }
     .c-timetable .blob2 { background: #60efff; width: 140px; height: 140px; bottom: -40px; right: -20px; }
-
     .c-social .blob1 { background: #f093fb; width: 140px; height: 140px; top: -30px; left: 20px; }
     .c-social .blob2 { background: #f5576c; width: 120px; height: 120px; bottom: -20px; right: -10px; }
-
+    @media (max-width: 900px) {
+      h1 {
+        font-size: 2.8rem;
+        margin-bottom: 40px;
+      }
+      .cards-wrapper {
+        gap: 24px;
+      }
+    }
+    @media (max-width: 600px) {
+      body, html {
+        overflow-y: auto;
+      }
+      .container {
+        padding: 24px 16px 60px;
+      }
+      h1 {
+        font-size: 2.2rem;
+        letter-spacing: 2px;
+        text-align: center;
+      }
+      .cards-wrapper {
+        padding: 12px;
+      }
+      .card {
+        width: 100%;
+        height: auto;
+        min-height: 340px;
+      }
+      .card-content {
+        padding: 24px;
+      }
+      .icon {
+        font-size: 3.5rem;
+        margin-bottom: 18px;
+      }
+      .card h2 {
+        font-size: 1.5rem;
+      }
+      .card p {
+        font-size: 0.9rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -171,7 +205,7 @@
     <div class="cards-wrapper">
       
       <!-- Worksheet Card -->
-      <a href="https://script.google.com/macros/s/AKfycbySjnDMQZUfOw4eIB-JmdD1fteHKmNy-a0Xcb9ggh4/dev" class="card c-worksheet" data-tilt data-tilt-glare data-tilt-max-glare="0.4" data-tilt-scale="1.05">
+      <a href="https://script.google.com/macros/s/AKfycbySjnDMQZUfOw4eIB-JmdD1fteHKmNy-a0Xcb9ggh4/dev" class="card c-worksheet" data-tilt data-tilt-glare data-tilt-max-glare="0.4" data-tilt-scale="1.02">
         <div class="blob blob1"></div>
         <div class="blob blob2"></div>
         <div class="card-content">
@@ -182,7 +216,7 @@
       </a>
 
       <!-- Timetable Card -->
-      <a href="https://script.google.com/macros/s/AKfycbzvRLzNvSlHGxIU5-04BqgbosROFUszILzWpGRM4oYFgugrIX7B0jNWaRm1fdUoxcpTnQ/exec" class="card c-timetable" data-tilt data-tilt-glare data-tilt-max-glare="0.4" data-tilt-scale="1.05">
+      <a href="https://script.google.com/macros/s/AKfycbzvRLzNvSlHGxIU5-04BqgbosROFUszILzWpGRM4oYFgugrIX7B0jNWaRm1fdUoxcpTnQ/exec" class="card c-timetable" data-tilt data-tilt-glare data-tilt-max-glare="0.4" data-tilt-scale="1.02">
         <div class="blob blob1"></div>
         <div class="blob blob2"></div>
         <div class="card-content">
@@ -193,7 +227,7 @@
       </a>
 
       <!-- Social Media Card -->
-      <a href="https://script.google.com/macros/s/AKfycbyKIVo7Z2RhBkC3xIvTMFbJJSvWPvON2YRUo9ksfJdbqrehyW5QVZrquzoMEnBCG7wm/exec" class="card c-social" data-tilt data-tilt-glare data-tilt-max-glare="0.4" data-tilt-scale="1.05">
+      <a href="https://script.google.com/macros/s/AKfycbyKIVo7Z2RhBkC3xIvTMFbJJSvWPvON2YRUo9ksfJdbqrehyW5QVZrquzoMEnBCG7wm/exec" class="card c-social" data-tilt data-tilt-glare data-tilt-max-glare="0.4" data-tilt-scale="1.02">
         <div class="blob blob1"></div>
         <div class="blob blob2"></div>
         <div class="card-content">
